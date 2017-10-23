@@ -177,6 +177,59 @@ HRESULT HighLightSpecObject (CATISpecObject_var spSpec, CATBoolean boolClearHist
 }
 
 
+   //----------------------------------------------------------------------
+    // 4-dump Attributes
+    //----------------------------------------------------------------------    
+    CATIAttributesDescription *piAttrDesc = NULL;
+    rc = spRootProduct->QueryInterface(IID_CATIAttributesDescription, (void **) &piAttrDesc);
+    if (FAILED(rc) || (NULL == piAttrDesc))
+    {
+        cout << "QueryInterface CATIAttributesDescription error" << endl;
+        return 4;
+    }
+    CATIInstance *piInstance = NULL;
+    rc = spRootProduct->QueryInterface(IID_CATIInstance, (void **) &piInstance);
+    if (FAILED(rc) || (NULL == piInstance))
+    {
+        cout << "QueryInterface CATIInstance error" << endl;
+        return 4;
+    }
+    CATListValCATAttributeInfos attrInfoList; 
+    piAttrDesc->List(&attrInfoList);
+    for (int i = 1; i <= attrInfoList.Size(); i++)
+    {
+        CATAttributeInfos attrInfo = attrInfoList[i];
+        const CATUnicodeString& propertyName = attrInfo.Name(); //属性名
+        const CATUnicodeString& valueType = attrInfo.Type()->Name(); //属性类型
+        CATIValue *pValue = piInstance->GetValue(propertyName); //获得对应属性名的属性值
+        CATUnicodeString value = "";
+        pValue->AsString(value);
+        cout << propertyName << "-" << valueType << "-" << value << endl;
+        if (pValue)
+        {
+            pValue->Release();
+            pValue = NULL;
+        }
+    }
+
+/*CAA提供了一个全局方法CATGetSystemInfo用来获得当前主机的信息，
+其用参数返回一个CATSystemInfo结构体，将其结构体解包即可获得主机名字、主机系统名字、系统版本等主机信息。*/
+CATSystemInfo host;
+::CATGetSystemInfo(&host);
+
+cout << "HostName:" << host.HostName << endl;
+cout << "OSName:" << host.OSName << endl;
+cout << "OSVersion:" << host.OSVersion << endl;
+cout << "OSType:" << host.OSType << endl;
+cout << "MinorVersion:" << host.MinorVersion << endl;
+cout << "MajorVersion:" << host.MajorVersion << endl;
+
+
+CATTime 
+CATTime timeNow = CATTime::GetCurrentLocalTime();
+CATUnicodeString timeStr = timeNow.ConvertToString("%Y/%m/%d-%H:%M:%S");
+std::cout << "Current Time:" << timeStr.ConvertToChar() << std::endl;
+
 3、C＃ C++ 字符集转换  字节流
 	string  str="客服端是用c#写的，服务端是c++";
 	   send(str);
