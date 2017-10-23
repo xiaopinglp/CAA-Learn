@@ -1,42 +1,42 @@
-³£¼û±àÒë´íÎó£º
+å¸¸è§ç¼–è¯‘é”™è¯¯ï¼š
 fatal error C1189: #error :WINDOWS.H already included.
 
-½â¾ö·½·¨£º×î¶¥¶Ë¶¨ÒåÔ¤±àÒëµÄºê
+è§£å†³æ–¹æ³•ï¼šæœ€é¡¶ç«¯å®šä¹‰é¢„ç¼–è¯‘çš„å®
 #ifdef _WINDOWS_
 #undef _WINDOWS_     #include <afx.h>
 #endif
 
 
-CAA³£ÓÃ´úÂë¹¹¼ş
+CAAå¸¸ç”¨ä»£ç æ„ä»¶
 #include<afxwin.h>
 AfcMessageBox(_T("hello!Point Command"));
 
-//±äÁ¿ºÍ±í´ïÊ½×ª»»³É×Ö·û´®
-//Ê¹ÓÃ×Ö·û´®ÔËËã·ûÀ´ÊµÏÖ×ª»»Êä³ö¶¨Òå
+//å˜é‡å’Œè¡¨è¾¾å¼è½¬æ¢æˆå­—ç¬¦ä¸²
+//ä½¿ç”¨å­—ç¬¦ä¸²è¿ç®—ç¬¦æ¥å®ç°è½¬æ¢è¾“å‡ºå®šä¹‰
 #define PR(x) cout<<#x"="<<x<<"\n";
-1¡¢CATDlgNotify
+1ã€CATDlgNotify
 	CATUnicodeString NotifyText;
 	//NotifyText.BuildFromNum(iInputAllocatedSize);
 	_OpenNotify = new CATDlgNotify(this, "TEST", CATDlgNfyWarning|CATDlgNfyOK);
 	_OpenNotify->SetText(NotifyText);
 	_OpenNotify->SetVisibility(CATDlgShow);
 
-2¡¢CATUnicodeString -->LPSTR ÀûÓÃCString  afxstr;
+2ã€CATUnicodeString -->LPSTR åˆ©ç”¨CString  afxstr;
 	CATUnicodeString InstanceName;
 	spProduct->GetPrdInstanceName(InstanceName);
 	CString name=InstanceName.ConvertToChar();
 	MessageBox(NULL,name,L"OK",MB_OK | MB_SYSTEMMODAL);
-	MessageBox(NULL,L"Hello World!",L"³É¹¦",MB_OK | MB_SYSTEMMODAL);
+	MessageBox(NULL,L"Hello World!",L"æˆåŠŸ",MB_OK | MB_SYSTEMMODAL);
 
 	CString str;  
-    str.Format(_T("%d"),len); //CStringÀàµÄÒ»¸ö³ÉÔ±º¯Êı,ËüÍ¨¹ı¸ñÊ½²Ù×÷Ê¹ÈÎÒâÀàĞÍµÄÊı¾İ×ª»»³ÉÒ»¸ö×Ö·û´®
+    str.Format(_T("%d"),len); //CStringç±»çš„ä¸€ä¸ªæˆå‘˜å‡½æ•°,å®ƒé€šè¿‡æ ¼å¼æ“ä½œä½¿ä»»æ„ç±»å‹çš„æ•°æ®è½¬æ¢æˆä¸€ä¸ªå­—ç¬¦ä¸²
 
-3¡¢ÔªËØÒş²ØÓëÏÔÊ¾
+3ã€å…ƒç´ éšè—ä¸æ˜¾ç¤º
 
 /**
-* Òş²ØÔªËØ
+* éšè—å…ƒç´ 
 * @param ipListElemObj
-* ÔªËØÁĞ±í
+* å…ƒç´ åˆ—è¡¨
 */
 void BasicGlobalFunc::HideElements(CATLISTV(CATISpecObject_var) ipListElemObj)
 {
@@ -60,7 +60,7 @@ void BasicGlobalFunc::HideElements(CATLISTV(CATISpecObject_var) ipListElemObj)
 }
 
 /**
-* ¼ì²âÔªËØÏÔÊ¾×´Ì¬
+* æ£€æµ‹å…ƒç´ æ˜¾ç¤ºçŠ¶æ€
 */
 bool CheckIsShow(CATIVisProperties_var spPropOnTreeNode)
 {
@@ -84,7 +84,7 @@ bool CheckIsShow(CATIVisProperties_var spPropOnTreeNode)
 }
 
 /**
-* È¡µÃÔªËØÏÔÊ¾±êÊ¶ Show Flag
+* å–å¾—å…ƒç´ æ˜¾ç¤ºæ ‡è¯† Show Flag
 */
 HRESULT GetShow(CATIVisProperties_var spProp, CATShowAttribut &oShow ,int Mode )
 {
@@ -107,8 +107,45 @@ HRESULT GetShow(CATIVisProperties_var spProp, CATShowAttribut &oShow ,int Mode )
 	return S_OK;
 }
 
-3¡¢C££ C++ ×Ö·û¼¯×ª»»  ×Ö½ÚÁ÷
-	string  str="¿Í·ş¶ËÊÇÓÃc#Ğ´µÄ£¬·şÎñ¶ËÊÇc++";
+/**
+* é«˜äº®ç‰¹å¾
+* @param spSpec
+*   é«˜äº®ç‰¹å¾
+*/
+
+HRESULT HighLightSpecObject (CATISpecObject_var spSpec, CATBoolean boolClearHistory)
+{
+	HRESULT rc = E_FAIL;
+	CATFrmEditor * pEditor = CATFrmEditor::GetCurrentEditor();
+	if(NULL == pEditor )
+		return rc;
+	CATHSO * pHSO = pEditor->GetHSO();
+	if(NULL == pHSO )
+		return rc;	
+	if(boolClearHistory)//ä¸º1æ—¶ï¼Œæ¸…æ¥šæ‰€æœ‰å·²æœ‰çš„é«˜äº®
+		pHSO->Empty();
+	CATPathElement pContext = pEditor->GetUIActiveObject();
+	CATIBuildPath * piBuildPath = NULL;
+	rc =spSpec->QueryInterface(IID_CATIBuildPath, (void **)&piBuildPath);
+	if(SUCCEEDED(rc) && piBuildPath != NULL)
+	{
+		CATPathElement * pPathElement = NULL;
+		rc = piBuildPath->ExtractPathElement(&pContext, &pPathElement);
+		if (pPathElement != NULL)
+		{
+			pHSO->AddElement(pPathElement);
+			pPathElement->Release();
+			pPathElement = NULL;
+		}
+		piBuildPath->Release();
+		piBuildPath = NULL;
+	}
+	return S_OK;
+}
+
+
+3ã€Cï¼ƒ C++ å­—ç¬¦é›†è½¬æ¢  å­—èŠ‚æµ
+	string  str="å®¢æœç«¯æ˜¯ç”¨c#å†™çš„ï¼ŒæœåŠ¡ç«¯æ˜¯c++";
 	   send(str);
 	public void send(msg)
 	{
@@ -117,10 +154,10 @@ HRESULT GetShow(CATIVisProperties_var spProp, CATShowAttribut &oShow ,int Mode )
 		byte[] byteData = Encoding.Default.GetBytes(chars);  
 		socket.write(byteData ,0,byteData.length);
 	}
-	//×Ö·û´®×ªÎª16½øÖÆ
+	//å­—ç¬¦ä¸²è½¬ä¸º16è¿›åˆ¶
 	public string StringToHexString(string message)
 	{
-		//°´ÕÕÖ¸¶¨±àÂë½«string±à³Ì×Ö½ÚÊı×é
+		//æŒ‰ç…§æŒ‡å®šç¼–ç å°†stringç¼–ç¨‹å­—èŠ‚æ•°ç»„
 		byte[] b = Encoding.UTF8.GetBytes(message);
 		string result = string.Empty;
 		for (int i = 0; i < b.Length; i++)
@@ -131,7 +168,7 @@ HRESULT GetShow(CATIVisProperties_var spProp, CATShowAttribut &oShow ,int Mode )
 	}
 
 
-4¡¢µ÷ÓÃexeÎÄ¼ş
+4ã€è°ƒç”¨exeæ–‡ä»¶
 	ShellExecute(0,(LPCWSTR)L"open",(LPCWSTR)L"D:\\Bin_x64\\SuperMapDemo.exe",(LPCWSTR)L"",(LPCWSTR)L"",SW_SHOWNORMAL);
 
 	SHELLEXECUTEINFO ShellInfo;
@@ -151,23 +188,23 @@ HRESULT GetShow(CATIVisProperties_var spProp, CATShowAttribut &oShow ,int Mode )
 			return false;
 		}
 
-		ĞĞºÅ ²ÎÊı º¬Òå  
-		1 SW_HIDE Òş²ØÕâ¸ö´°Ìå£¬²¢¼¤»îÆäËû´°Ìå¡£ 
-		2 SW_MAXIMIZE ×î´ó»¯Ö¸¶¨µÄ´°Ìå¡£  
-		3 SW_MINIMIZE ×îĞ¡»¯Ö¸¶¨µÄ´°Ìå£¬²¢°´Ë³Ğò¼¤»î×îÉÏ²ãµÄ´°Ìå¡£  
-		4 SW_RESTORE ¼¤»î²¢ÏÔÊ¾´°Ìå¡£Èç¹û´°ÌåÎª×îĞ¡»¯»òÕß×î´ó»¯£¬´°Ìå»Ö¸´µ½Ô­Ê¼´óĞ¡ºÍÎ»ÖÃ¡£Ó¦ÓÃ³ÌĞòµ±»Ö¸´Ò»¸ö×îĞ¡»¯µÄ´°ÌåÊ±½«Ö¸¶¨±ê¼Ç¡£ 
-		5 SW_SHOW ÒÔµ±Ç°µÄ´óĞ¡ºÍÎ»ÖÃ¼¤»î²¢ÏÔÊ¾´°Ìå¡£ 
+		è¡Œå· å‚æ•° å«ä¹‰  
+		1 SW_HIDE éšè—è¿™ä¸ªçª—ä½“ï¼Œå¹¶æ¿€æ´»å…¶ä»–çª—ä½“ã€‚ 
+		2 SW_MAXIMIZE æœ€å¤§åŒ–æŒ‡å®šçš„çª—ä½“ã€‚  
+		3 SW_MINIMIZE æœ€å°åŒ–æŒ‡å®šçš„çª—ä½“ï¼Œå¹¶æŒ‰é¡ºåºæ¿€æ´»æœ€ä¸Šå±‚çš„çª—ä½“ã€‚  
+		4 SW_RESTORE æ¿€æ´»å¹¶æ˜¾ç¤ºçª—ä½“ã€‚å¦‚æœçª—ä½“ä¸ºæœ€å°åŒ–æˆ–è€…æœ€å¤§åŒ–ï¼Œçª—ä½“æ¢å¤åˆ°åŸå§‹å¤§å°å’Œä½ç½®ã€‚åº”ç”¨ç¨‹åºå½“æ¢å¤ä¸€ä¸ªæœ€å°åŒ–çš„çª—ä½“æ—¶å°†æŒ‡å®šæ ‡è®°ã€‚ 
+		5 SW_SHOW ä»¥å½“å‰çš„å¤§å°å’Œä½ç½®æ¿€æ´»å¹¶æ˜¾ç¤ºçª—ä½“ã€‚ 
 		6 SW_SHOWDEFAULT   
-		7 SW_SHOWMAXIMIZED ¼¤»î²¢×î´ó»¯ÏÔÊ¾´°Ìå¡£
-		8 SW_SHOWMINIMIZED ¼¤»î²¢×îĞ¡»¯ÏÖÊµ´°Ìå¡£ 
-		9 SW_SHOWMINNOACTIVE ×îĞ¡»¯´°Ìå£¬±£³ÖÆä¼¤»î×´Ì¬¡£ 
-		10 SW_SHOWNA ÒÔµ±Ç°×´Ì¬ÏÔÊ¾´°Ìå£¬±£³ÖÆä¼¤»î×´Ì¬¡£  
-		11 SW_SHOWNOACTIVATE ÒÔµ±Ç°µÄ´óĞ¡ºÍÎ»ÖÃÏÔÊ¾´°Ìå£¬²¢±£³ÖÆä¼¤»î×´Ì¬¡£ 
-		12 SW_SHOWNORMAL ¼¤»î²¢ÏÔÊ¾Ò»¸ö´°Ìå¡£Èç¹û´°ÌåÎª×î´ó»¯»òÕß×îĞ¡»¯£¬´°Ìå»Ö¸´µ½Ô­Ê¼µÄ´óĞ¡ºÍÎ»ÖÃ¡£µ±´°ÌåµÚÒ»´ÎÏÔÊ¾µÄÊ±ºò£¬Ó¦ÓÃ³ÌĞò¼ÇÂ¼±ê¼Ç¡£
+		7 SW_SHOWMAXIMIZED æ¿€æ´»å¹¶æœ€å¤§åŒ–æ˜¾ç¤ºçª—ä½“ã€‚
+		8 SW_SHOWMINIMIZED æ¿€æ´»å¹¶æœ€å°åŒ–ç°å®çª—ä½“ã€‚ 
+		9 SW_SHOWMINNOACTIVE æœ€å°åŒ–çª—ä½“ï¼Œä¿æŒå…¶æ¿€æ´»çŠ¶æ€ã€‚ 
+		10 SW_SHOWNA ä»¥å½“å‰çŠ¶æ€æ˜¾ç¤ºçª—ä½“ï¼Œä¿æŒå…¶æ¿€æ´»çŠ¶æ€ã€‚  
+		11 SW_SHOWNOACTIVATE ä»¥å½“å‰çš„å¤§å°å’Œä½ç½®æ˜¾ç¤ºçª—ä½“ï¼Œå¹¶ä¿æŒå…¶æ¿€æ´»çŠ¶æ€ã€‚ 
+		12 SW_SHOWNORMAL æ¿€æ´»å¹¶æ˜¾ç¤ºä¸€ä¸ªçª—ä½“ã€‚å¦‚æœçª—ä½“ä¸ºæœ€å¤§åŒ–æˆ–è€…æœ€å°åŒ–ï¼Œçª—ä½“æ¢å¤åˆ°åŸå§‹çš„å¤§å°å’Œä½ç½®ã€‚å½“çª—ä½“ç¬¬ä¸€æ¬¡æ˜¾ç¤ºçš„æ—¶å€™ï¼Œåº”ç”¨ç¨‹åºè®°å½•æ ‡è®°ã€‚
 
 
 
-5¡¢Åú´¦ÀíÄ£Ê½»ñµÃÎÄ¼şµÄrootProduct
+5ã€æ‰¹å¤„ç†æ¨¡å¼è·å¾—æ–‡ä»¶çš„rootProduct
 HRESULT GetCurrentDoc_TopProduct( CATIProduct_var & spTopProd)
 {
 //--------------------------------------------------------------------
@@ -256,12 +293,12 @@ HRESULT GetCurrentDoc_TopProduct( CATIProduct_var & spTopProd)
   
 //--------------------------------------------------------------------
 	
-	//´´½¨²İÍ¼
+	//åˆ›å»ºè‰å›¾
 	CATInit *piInitOnDoc = NULL;
 	rc = pDoc -> QueryInterface (IID_CATInit,(void**) &piInitOnDoc);
 	if(SUCCEEDED(rc) && NULL != piInitOnDoc)
 	{
-		//»ñÈ¡Container
+		//è·å–Container
 		const CATIdent idCATIContainer = "CATIPrtContainer";
 		CATIPrtContainer *piRootContainer = NULL;
 		piRootContainer = (CATIPrtContainer*)
@@ -295,14 +332,14 @@ HRESULT GetCurrentDoc_TopProduct( CATIProduct_var & spTopProd)
 							sketch2DFactory->CreateCircle(Origin,Radius);
 						if(NULL_var != spSpecCircle)
 						{
-							cout<<"²İÍ¼ÖĞ´´½¨Ô²³É¹¦£¡"<<endl;	
+							cout<<"è‰å›¾ä¸­åˆ›å»ºåœ†æˆåŠŸï¼"<<endl;	
 						}
 						spSketch->CloseEdition();
 
 						spPart->SetCurrentFeature(spMainBody);
 
 
-						//´´½¨Í¹Ì¨
+						//åˆ›å»ºå‡¸å°
 						CATIPrtFactory * piPrtFact=NULL;
 						rc=piRootContainer->QueryInterface(IID_CATIPrtFactory,
 							(void **)&piPrtFact);
@@ -319,7 +356,7 @@ HRESULT GetCurrentDoc_TopProduct( CATIProduct_var & spTopProd)
 								}
 
 								spPad->Update();
-								cout<<"´´½¨Í¹Ì¨³É¹¦£¡"<<endl;
+								cout<<"åˆ›å»ºå‡¸å°æˆåŠŸï¼"<<endl;
 							}
 							piPrtFact->Release();
 							piPrtFact=NULL;
@@ -334,7 +371,7 @@ HRESULT GetCurrentDoc_TopProduct( CATIProduct_var & spTopProd)
 			CATISpecObject_var spParentForTool = spMainBody;
 			CATIMechanicalRootFactory_var spMechRoot = piRootContainer;
 			CATISpecObject_var spSpecGS1 = NULL_var;
-			rc = spMechRoot -> CreateGeometricalSet("ĞÂÔö¼¸ºÎÍ¼ĞÎ¼¯1",spParentForTool,spSpecGS1);
+			rc = spMechRoot -> CreateGeometricalSet("æ–°å¢å‡ ä½•å›¾å½¢é›†1",spParentForTool,spSpecGS1);
 		}
 
 		piInitOnDoc->Release();
@@ -349,53 +386,53 @@ HRESULT GetCurrentDoc_TopProduct( CATIProduct_var & spTopProd)
 #include "CATNotification.h"
 void BITCreateAssemSndDlg::OnBITCreateAssemSndDlgDiaOKNotification(CATCommand* cmd, CATNotification* evt, CATCommandClientData data)
 {	
-	_OpenNotify = new CATDlgNotify(this, "", CATDlgNfyOKCancel);//µ¯³öÑ¯ÎÊÏûÏ¢¿ò
-	_OpenNotify->SetText("µ¼³öĞÅÏ¢£¿");
+	_OpenNotify = new CATDlgNotify(this, "", CATDlgNfyOKCancel);//å¼¹å‡ºè¯¢é—®æ¶ˆæ¯æ¡†
+	_OpenNotify->SetText("å¯¼å‡ºä¿¡æ¯ï¼Ÿ");
 	_OpenNotify->SetVisibility(CATDlgShow);
 
-	pDlgFile = new CATDlgFile(this,"µ¼³ö",CATDlgFileSave);//µ¯³öÎÄ¼şÑ¡Ôñ¿ò
+	pDlgFile = new CATDlgFile(this,"å¯¼å‡º",CATDlgFileSave);//å¼¹å‡ºæ–‡ä»¶é€‰æ‹©æ¡†
 	pDlgFile->SetVisibility(CATDlgShow);	
-	CATUnicodeString nameExtension = CATUnicodeString("txt files");//ÉèÖÃÎÄ¼ş¸ñÊ½Îªtxt
+	CATUnicodeString nameExtension = CATUnicodeString("txt files");//è®¾ç½®æ–‡ä»¶æ ¼å¼ä¸ºtxt
 	CATString filterExtension = CATString("*.txt");
 	pDlgFile->SetFilterStrings(&nameExtension, &filterExtension, 1);
-	pDlgFile->SetFileName("ĞÅÏ¢¼ÇÂ¼");//ÉèÖÃÎÄ¼şÄ¬ÈÏÃû³ÆÎªĞÅÏ¢¼ÇÂ¼
+	pDlgFile->SetFileName("ä¿¡æ¯è®°å½•");//è®¾ç½®æ–‡ä»¶é»˜è®¤åç§°ä¸ºä¿¡æ¯è®°å½•
 	int iTypeOfInput = 0;
-	//Ìí¼ÓÎÄ¼şÑ¡Ôñ¿òÈ·¶¨°´Å¥ÊÂ¼ş»Øµ÷º¯Êı ActOnOK
+	//æ·»åŠ æ–‡ä»¶é€‰æ‹©æ¡†ç¡®å®šæŒ‰é’®äº‹ä»¶å›è°ƒå‡½æ•° ActOnOK
 	AddAnalyseNotificationCB (pDlgFile, 
 		pDlgFile->GetDiaOKNotification(),
 		(CATCommandMethod)&BITCreateAssemSndDlg::ActOnOK,
 		&iTypeOfInput);
 }
 
-//ÊÂ¼ş»Øµ÷º¯Êı ActOnOKµÄÊµÏÖ
+//äº‹ä»¶å›è°ƒå‡½æ•° ActOnOKçš„å®ç°
 void BITCreateAssemSndDlg::ActOnOK(CATCommand * cmd, CATNotification* evt , CATCommandClientData data)
 {
 	CATUnicodeString fileName;
-	pDlgFile->GetSelection(fileName);//»ñÈ¡Ñ¡ÔñµÄÂ·¾¶
-	_OpenNotify = new CATDlgNotify(this, "", CATDlgNfyOK);//Ñ¡ÔñµÄÂ·¾¶ÌáÊ¾¿ò
-	_OpenNotify->SetText("ÎÄ¼ş½«±»±£´æµ½:"+fileName);
+	pDlgFile->GetSelection(fileName);//è·å–é€‰æ‹©çš„è·¯å¾„
+	_OpenNotify = new CATDlgNotify(this, "", CATDlgNfyOK);//é€‰æ‹©çš„è·¯å¾„æç¤ºæ¡†
+	_OpenNotify->SetText("æ–‡ä»¶å°†è¢«ä¿å­˜åˆ°:"+fileName);
 	_OpenNotify->SetVisibility(CATDlgShow);
 
 	fileName=fileName+".txt";
 	const char *filepath=fileName.ConvertToChar();
-	ofstream outfile(filepath,ios::out|ios::trunc);//ÓÃc++µÄÊä³öÎÄ¼ş
+	ofstream outfile(filepath,ios::out|ios::trunc);//ç”¨c++çš„è¾“å‡ºæ–‡ä»¶
 	if(!outfile)	 
 	{
 		_OpenNotify = new CATDlgNotify(this, "", CATDlgNfyError);
-		_OpenNotify->SetText("´ò¿ª³ö´í£¡");
+		_OpenNotify->SetText("æ‰“å¼€å‡ºé”™ï¼");
 		_OpenNotify->SetVisibility(CATDlgShow);
 	}
-	outfile<<"ĞÕÃû  "<<"ĞÔ±ğ  "<<"ÄêÁä  "<<"Ï²»¶Ñ§¿Æ	  "<<endl;
+	outfile<<"å§“å  "<<"æ€§åˆ«  "<<"å¹´é¾„  "<<"å–œæ¬¢å­¦ç§‘	  "<<endl;
 	CATUnicodeString	 name,gender,age,subject;
 	int ColumnNum=_MultiListInformation->GetLineCount();
 	for(int i=0;i<ColumnNum;i++)
 	{
-		//»ñÈ¡MultiListInformationÖĞµÄĞÅÏ¢
+		//è·å–MultiListInformationä¸­çš„ä¿¡æ¯
 		_MultiListInformation->GetColumnItem(0, name,i);
 		_MultiListInformation->GetColumnItem(1, gender,i);
 		_MultiListInformation->GetColumnItem(3, age,i);
 		_MultiListInformation->GetColumnItem(2, subject,i);
-		//´Ë´¦ĞèÒªµ÷Õû×Ö·û´®µÄÊä³ö·½Ê½£¬Ê¹µÃtxt¸ñÊ½ÕûÆë
+		//æ­¤å¤„éœ€è¦è°ƒæ•´å­—ç¬¦ä¸²çš„è¾“å‡ºæ–¹å¼ï¼Œä½¿å¾—txtæ ¼å¼æ•´é½
 		name.Resize(6,' ',0);
 		gender.Resize(4,' ',0);
 		age.Resize(4,' ',0);
@@ -416,19 +453,19 @@ void BITCreateAssemSndDlg::OnMultiListInformationListSelectNotification(CATComma
 	_MultiListInformation->GetColumnItem(1, gender,selectLine[0]);
 	_MultiListInformation->GetColumnItem(3, age,selectLine[0]);
 	_MultiListInformation->GetColumnItem(2, subject,selectLine[0]);
-	_EditorName->SetText(name);//EditorÖµÉèÖÃ
-	if(gender=="ÄĞ") {_RadioButtonMale->SetState(CATDlgCheck);_RadioButtonFemale->SetState(CATDlgUncheck);}//RadioButton×´Ì¬ÉèÖÃ
-	if(gender=="Å®") {_RadioButtonMale->SetState(CATDlgUncheck);_RadioButtonFemale->SetState(CATDlgCheck);}
+	_EditorName->SetText(name);//Editorå€¼è®¾ç½®
+	if(gender=="ç”·") {_RadioButtonMale->SetState(CATDlgCheck);_RadioButtonFemale->SetState(CATDlgUncheck);}//RadioButtonçŠ¶æ€è®¾ç½®
+	if(gender=="å¥³") {_RadioButtonMale->SetState(CATDlgUncheck);_RadioButtonFemale->SetState(CATDlgCheck);}
 	int ageNumb;
-	age.ConvertToNum(&ageNumb,"%d");//×Ö·û´®×ª»¯ÎªÕûÊı
+	age.ConvertToNum(&ageNumb,"%d");//å­—ç¬¦ä¸²è½¬åŒ–ä¸ºæ•´æ•°
 	_ComboAge->SetSelect(ageNumb-20);
-	if(-1==subject.SearchSubString("ÖªÊ¶¹¤³Ì"))//×Ö·û´®ËÑË÷
-		_CheckButtonKnowledge->SetState(CATDlgUncheck);//CheckButton×´Ì¬ÉèÖÃ
+	if(-1==subject.SearchSubString("çŸ¥è¯†å·¥ç¨‹"))//å­—ç¬¦ä¸²æœç´¢
+		_CheckButtonKnowledge->SetState(CATDlgUncheck);//CheckButtonçŠ¶æ€è®¾ç½®
 	else _CheckButtonKnowledge->SetState(CATDlgCheck);
-	if(-1==subject.SearchSubString("Éè¼ÆÖÆÔì¼¯³É"))
+	if(-1==subject.SearchSubString("è®¾è®¡åˆ¶é€ é›†æˆ"))
 		_CheckButtonDesign->SetState(CATDlgUncheck);
 	else _CheckButtonDesign->SetState(CATDlgCheck);
-	if(-1==subject.SearchSubString("ÈıÎ¬¹¤ÒÕÉè¼Æ"))
+	if(-1==subject.SearchSubString("ä¸‰ç»´å·¥è‰ºè®¾è®¡"))
 		_CheckButton3D->SetState(CATDlgUncheck);
 	else _CheckButton3D->SetState(CATDlgCheck);
 }
