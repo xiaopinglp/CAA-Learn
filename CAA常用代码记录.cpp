@@ -30,8 +30,33 @@ AfcMessageBox(_T("hello!Point Command"));
 
 	CString str;  
     str.Format(_T("%d"),len); //CString类的一个成员函数,它通过格式操作使任意类型的数据转换成一个字符串
+	
 //获取CATIA环境变量：
-CATGetEnvValue("CATTemp", &slash_tmp) == CATLibSuccess)
+    CATUnicodeString oPreviewFileName,TmpDir,File;
+         char *slash_tmp = NULL;
+         if (CATGetEnvValue("CATInstallPath", &slash_tmp) == CATLibSuccess)
+            oPreviewFileName = slash_tmp;
+         if (slash_tmp) free(slash_tmp); slash_tmp=NULL;
+#ifndef _WINDOWS_SOURCE
+         oPreviewFileName.Append("\\");
+#else
+         oPreviewFileName.Append("/");
+#endif
+         oPreviewFileName.Append("CAAxPDMPreview.jpg");
+
+		 
+CATIA CAA 32位和64位编译
+
+1、修改环境变量：
+
+　　_MkmkOS_BitMode  =  32   // Win32位编译
+       _MkmkOS_BitMode  =  64   // Win64位编译
+ 
+2、定义 Locate Prerequisite Workspace
+ 
+       选择32位CATIA， 在该CATIA目录下已经安装了CAA；
+       选择63位CATIA， 在该CATIA目录下已经安装了CAA；
+	   
 // get System environment variable
 char *pathvar;
 pathvar = getenv("PATH");
