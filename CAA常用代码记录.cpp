@@ -30,6 +30,14 @@ AfcMessageBox(_T("hello!Point Command"));
 
 	CString str;  
     str.Format(_T("%d"),len); //CString类的一个成员函数,它通过格式操作使任意类型的数据转换成一个字符串
+//获取CATIA环境变量：
+CATGetEnvValue("CATTemp", &slash_tmp) == CATLibSuccess)
+// get System environment variable
+char *pathvar;
+pathvar = getenv("PATH");
+cout << pathvar << endl
+
+
 
 3、元素隐藏与显示
 
