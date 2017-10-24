@@ -1,4 +1,4 @@
-常见编译错误：
+常见编译错误： 
 fatal error C1189: #error :WINDOWS.H already included.
 
 解决方法：最顶端定义预编译的宏
