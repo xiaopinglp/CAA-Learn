@@ -1,2 +1,2 @@
 # myRepository
-CATIA CAA second develope
+CATIA CAA Secondary development
