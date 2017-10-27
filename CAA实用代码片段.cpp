@@ -1,11 +1,9 @@
-常见编译错误： 
-fatal error C1189: #error :WINDOWS.H already included.
-
-解决方法：最顶端定义预编译的宏
+/*常见编译错误： 
+fatal error C1189: #error :WINDOWS.H already included.	
+解决方法：最顶端定义预编译的宏*/
 #ifdef _WINDOWS_
 #undef _WINDOWS_     #include <afx.h>
 #endif
-
 
 CAA常用代码构件
 #include<afxwin.h>
@@ -14,24 +12,24 @@ AfcMessageBox(_T("hello!Point Command"));
 //变量和表达式转换成字符串
 //使用字符串运算符来实现转换输出定义
 #define PR(x) cout<<#x"="<<x<<"\n";
-1、CATDlgNotify
+
+//一、弹出对话框
+//1、CATDlgNotify
+	CATDlgNotify _OpenNotify;
 	CATUnicodeString NotifyText;
 	//NotifyText.BuildFromNum(iInputAllocatedSize);
 	_OpenNotify = new CATDlgNotify(this, "TEST", CATDlgNfyWarning|CATDlgNfyOK);
 	_OpenNotify->SetText(NotifyText);
 	_OpenNotify->SetVisibility(CATDlgShow);
 
-2、CATUnicodeString -->LPSTR 利用CString  afxstr;
+//2、MessageBox CATUnicodeString -->LPSTR 利用CString  afxstr;
 	CATUnicodeString InstanceName;
 	spProduct->GetPrdInstanceName(InstanceName);
 	CString name=InstanceName.ConvertToChar();
 	MessageBox(NULL,name,L"OK",MB_OK | MB_SYSTEMMODAL);
 	MessageBox(NULL,L"Hello World!",L"成功",MB_OK | MB_SYSTEMMODAL);
 
-	CString str;  
-    str.Format(_T("%d"),len); //CString类的一个成员函数,它通过格式操作使任意类型的数据转换成一个字符串
-	
-//获取CATIA环境变量：
+//二、获取CATIA环境变量：
     CATUnicodeString oPreviewFileName,TmpDir,File;
          char *slash_tmp = NULL;
          if (CATGetEnvValue("CATInstallPath", &slash_tmp) == CATLibSuccess)
@@ -44,34 +42,24 @@ AfcMessageBox(_T("hello!Point Command"));
 #endif
          oPreviewFileName.Append("CAAxPDMPreview.jpg");
 
-		 
-CATIA CAA 32位和64位编译
-
-1、修改环境变量：
-
-　　_MkmkOS_BitMode  =  32   // Win32位编译
-       _MkmkOS_BitMode  =  64   // Win64位编译
- 
-2、定义 Locate Prerequisite Workspace
- 
-       选择32位CATIA， 在该CATIA目录下已经安装了CAA；
-       选择63位CATIA， 在该CATIA目录下已经安装了CAA；
-	   
 // get System environment variable
 char *pathvar;
 pathvar = getenv("PATH");
 cout << pathvar << endl
+	 
+/*CATIA CAA 32位和64位编译
+	修改环境变量：
+	_MkmkOS_BitMode  =  32   // Win32位编译
+	_MkmkOS_BitMode  =  64   // Win64位编译
+ */
 
-
-
-3、元素隐藏与显示
-
+//三、元素隐藏与显示
 /**
 * 隐藏元素
 * @param ipListElemObj
 * 元素列表
 */
-void BasicGlobalFunc::HideElements(CATLISTV(CATISpecObject_var) ipListElemObj)
+void HideElements(CATLISTV(CATISpecObject_var) ipListElemObj)
 {
 	for(int i=1;i<ipListElemobj.Size();i++;)
 	{
@@ -84,8 +72,8 @@ void BasicGlobalFunc::HideElements(CATLISTV(CATISpecObject_var) ipListElemObj)
 			CATVisGeomType GeomTypeOnPtObj = CATVPGlobalType;
 			PropValue.SetShowAttr(CATNOShowAttr);
 			rc = pPropONElem -> SetPropertiesAttr(PropValue,
-				PropTypeOnPtObj,
-				GeomTypeOnPtObj);
+												  PropTypeOnPtObj,
+												  GeomTypeOnPtObj);
 			pPropONElem ->Release();
 			pPropONElem = NULL;
 		}
@@ -140,12 +128,12 @@ HRESULT GetShow(CATIVisProperties_var spProp, CATShowAttribut &oShow ,int Mode )
 	return S_OK;
 }
 
+//四、元素隐藏与显示
 /**
 * 高亮特征
 * @param spSpec
-*   高亮特征
+* 高亮特征
 */
-
 HRESULT HighLightSpecObject (CATISpecObject_var spSpec, CATBoolean boolClearHistory)
 {
 	HRESULT rc = E_FAIL;
@@ -155,7 +143,9 @@ HRESULT HighLightSpecObject (CATISpecObject_var spSpec, CATBoolean boolClearHist
 	CATHSO * pHSO = pEditor->GetHSO();
 	if(NULL == pHSO )
 		return rc;	
-	if(boolClearHistory)//为1时，清楚所有已有的高亮
+	
+	//为1时，清楚所有已有的高亮
+	if(boolClearHistory)
 		pHSO->Empty();
 	CATPathElement pContext = pEditor->GetUIActiveObject();
 	CATIBuildPath * piBuildPath = NULL;
@@ -176,10 +166,7 @@ HRESULT HighLightSpecObject (CATISpecObject_var spSpec, CATBoolean boolClearHist
 	return S_OK;
 }
 
-
-   //----------------------------------------------------------------------
-    // 4-dump Attributes
-    //----------------------------------------------------------------------    
+//五、属性获取   
     CATIAttributesDescription *piAttrDesc = NULL;
     rc = spRootProduct->QueryInterface(IID_CATIAttributesDescription, (void **) &piAttrDesc);
     if (FAILED(rc) || (NULL == piAttrDesc))
@@ -212,8 +199,8 @@ HRESULT HighLightSpecObject (CATISpecObject_var spSpec, CATBoolean boolClearHist
         }
     }
 
-/*CAA提供了一个全局方法CATGetSystemInfo用来获得当前主机的信息，
-其用参数返回一个CATSystemInfo结构体，将其结构体解包即可获得主机名字、主机系统名字、系统版本等主机信息。*/
+//六、CATSystemInfo 主机信息获取
+/*全局方法CATGetSystemInfo，获得一个CATSystemInfo结构体，包含主机名字、主机系统名字、系统版本等主机信息。*/
 CATSystemInfo host;
 ::CATGetSystemInfo(&host);
 
@@ -230,9 +217,9 @@ CATTime timeNow = CATTime::GetCurrentLocalTime();
 CATUnicodeString timeStr = timeNow.ConvertToString("%Y/%m/%d-%H:%M:%S");
 std::cout << "Current Time:" << timeStr.ConvertToChar() << std::endl;
 
-3、C＃ C++ 字符集转换  字节流
+//七、C＃ C++ 字符集转换  字节流
 	string  str="客服端是用c#写的，服务端是c++";
-	   send(str);
+	send(str);
 	public void send(msg)
 	{
 		string hexstr=StringToHexString(str)
@@ -254,49 +241,45 @@ std::cout << "Current Time:" << timeStr.ConvertToChar() << std::endl;
 	}
 
 
-4、调用exe文件
-	ShellExecute(0,(LPCWSTR)L"open",(LPCWSTR)L"D:\\Bin_x64\\SuperMapDemo.exe",(LPCWSTR)L"",(LPCWSTR)L"",SW_SHOWNORMAL);
+//八、调用exe文件
+ShellExecute(0,(LPCWSTR)L"open",(LPCWSTR)L"D:\\Bin_x64\\SuperMapDemo.exe",(LPCWSTR)L"",(LPCWSTR)L"",SW_SHOWNORMAL);
+SHELLEXECUTEINFO ShellInfo;
+	memset(&ShellInfo,0,sizeof(ShellInfo));
+	ShellInfo.cbSize=sizeof(ShellInfo);
+	ShellInfo.hwnd=NULL;
+	ShellInfo.lpVerb=_T("open");
+	//ShellInfo.lpFile=_T("..\\..\\..\\SuperMapDemo\\SuperMapDemo.exe");
+	ShellInfo.lpFile=_T("E:\\supermap\\Bin_x64\\SuperMapDemo.exe");
+	ShellInfo.lpParameters= name;
+	ShellInfo.nShow=SW_HIDE;//SW_SHOWNORMAL
+	ShellInfo.fMask=SEE_MASK_NOCLOSEPROCESS;
+	BOOL bResult=ShellExecuteEx(&ShellInfo);
+	if (!bResult)
+	{
+		return false;
+	}
 
-	SHELLEXECUTEINFO ShellInfo;
-
-		memset(&ShellInfo,0,sizeof(ShellInfo));
-		ShellInfo.cbSize=sizeof(ShellInfo);
-		ShellInfo.hwnd=NULL;
-		ShellInfo.lpVerb=_T("open");
-		//ShellInfo.lpFile=_T("..\\..\\..\\SuperMapDemo\\SuperMapDemo.exe");
-		ShellInfo.lpFile=_T("E:\\supermap\\Bin_x64\\SuperMapDemo.exe");
-		ShellInfo.lpParameters= name;
-		ShellInfo.nShow=SW_HIDE;//SW_SHOWNORMAL
-		ShellInfo.fMask=SEE_MASK_NOCLOSEPROCESS;
-		BOOL bResult=ShellExecuteEx(&ShellInfo);
-		if (!bResult)
-		{
-			return false;
-		}
-
-		行号 参数 含义  
-		1 SW_HIDE 隐藏这个窗体，并激活其他窗体。 
-		2 SW_MAXIMIZE 最大化指定的窗体。  
-		3 SW_MINIMIZE 最小化指定的窗体，并按顺序激活最上层的窗体。  
-		4 SW_RESTORE 激活并显示窗体。如果窗体为最小化或者最大化，窗体恢复到原始大小和位置。应用程序当恢复一个最小化的窗体时将指定标记。 
-		5 SW_SHOW 以当前的大小和位置激活并显示窗体。 
-		6 SW_SHOWDEFAULT   
-		7 SW_SHOWMAXIMIZED 激活并最大化显示窗体。
-		8 SW_SHOWMINIMIZED 激活并最小化现实窗体。 
-		9 SW_SHOWMINNOACTIVE 最小化窗体，保持其激活状态。 
-		10 SW_SHOWNA 以当前状态显示窗体，保持其激活状态。  
-		11 SW_SHOWNOACTIVATE 以当前的大小和位置显示窗体，并保持其激活状态。 
-		12 SW_SHOWNORMAL 激活并显示一个窗体。如果窗体为最大化或者最小化，窗体恢复到原始的大小和位置。当窗体第一次显示的时候，应用程序记录标记。
+	行号 参数 含义  
+	1 SW_HIDE 隐藏这个窗体，并激活其他窗体。 
+	2 SW_MAXIMIZE 最大化指定的窗体。  
+	3 SW_MINIMIZE 最小化指定的窗体，并按顺序激活最上层的窗体。  
+	4 SW_RESTORE 激活并显示窗体。如果窗体为最小化或者最大化，窗体恢复到原始大小和位置。应用程序当恢复一个最小化的窗体时将指定标记。 
+	5 SW_SHOW 以当前的大小和位置激活并显示窗体。 
+	6 SW_SHOWDEFAULT   
+	7 SW_SHOWMAXIMIZED 激活并最大化显示窗体。
+	8 SW_SHOWMINIMIZED 激活并最小化现实窗体。 
+	9 SW_SHOWMINNOACTIVE 最小化窗体，保持其激活状态。 
+	10 SW_SHOWNA 以当前状态显示窗体，保持其激活状态。  
+	11 SW_SHOWNOACTIVATE 以当前的大小和位置显示窗体，并保持其激活状态。 
+	12 SW_SHOWNORMAL 激活并显示一个窗体。如果窗体为最大化或者最小化，窗体恢复到原始的大小和位置。当窗体第一次显示的时候，应用程序记录标记。
 
 
-
-5、批处理模式获得文件的rootProduct
+//九、批处理模式获得文件的rootProduct
 HRESULT GetCurrentDoc_TopProduct( CATIProduct_var & spTopProd)
 {
 //--------------------------------------------------------------------
 // 1. Prologue 
 //--------------------------------------------------------------------
-
   cout << endl << flush;
   cout << endl << flush;
   cout << "----------------------------------------------------------------" << endl << flush;
@@ -338,7 +321,6 @@ HRESULT GetCurrentDoc_TopProduct( CATIProduct_var & spTopProd)
   }
   
   // --- Retrieving root product of the opened document 
-  
   CATIProduct* piRootProduct = NULL; // piRootProduct is a handle to document root product  
   //  
   CATIDocRoots * piDocRoots = NULL;
@@ -378,7 +360,6 @@ HRESULT GetCurrentDoc_TopProduct( CATIProduct_var & spTopProd)
   }
   
 //--------------------------------------------------------------------
-	
 	//创建草图
 	CATInit *piInitOnDoc = NULL;
 	rc = pDoc -> QueryInterface (IID_CATInit,(void**) &piInitOnDoc);
@@ -463,95 +444,3 @@ HRESULT GetCurrentDoc_TopProduct( CATIProduct_var & spTopProd)
 		piInitOnDoc->Release();
 		piInitOnDoc=NULL;
 	}
-
-//-------------------------------------------------------------------------
-// Callback on DiaOK of _BITCreateAssemSndDlg
-//-------------------------------------------------------------------------
-#include"iostream.h"
-#include"fstream.h"
-#include "CATNotification.h"
-void BITCreateAssemSndDlg::OnBITCreateAssemSndDlgDiaOKNotification(CATCommand* cmd, CATNotification* evt, CATCommandClientData data)
-{	
-	_OpenNotify = new CATDlgNotify(this, "", CATDlgNfyOKCancel);//弹出询问消息框
-	_OpenNotify->SetText("导出信息？");
-	_OpenNotify->SetVisibility(CATDlgShow);
-
-	pDlgFile = new CATDlgFile(this,"导出",CATDlgFileSave);//弹出文件选择框
-	pDlgFile->SetVisibility(CATDlgShow);	
-	CATUnicodeString nameExtension = CATUnicodeString("txt files");//设置文件格式为txt
-	CATString filterExtension = CATString("*.txt");
-	pDlgFile->SetFilterStrings(&nameExtension, &filterExtension, 1);
-	pDlgFile->SetFileName("信息记录");//设置文件默认名称为信息记录
-	int iTypeOfInput = 0;
-	//添加文件选择框确定按钮事件回调函数 ActOnOK
-	AddAnalyseNotificationCB (pDlgFile, 
-		pDlgFile->GetDiaOKNotification(),
-		(CATCommandMethod)&BITCreateAssemSndDlg::ActOnOK,
-		&iTypeOfInput);
-}
-
-//事件回调函数 ActOnOK的实现
-void BITCreateAssemSndDlg::ActOnOK(CATCommand * cmd, CATNotification* evt , CATCommandClientData data)
-{
-	CATUnicodeString fileName;
-	pDlgFile->GetSelection(fileName);//获取选择的路径
-	_OpenNotify = new CATDlgNotify(this, "", CATDlgNfyOK);//选择的路径提示框
-	_OpenNotify->SetText("文件将被保存到:"+fileName);
-	_OpenNotify->SetVisibility(CATDlgShow);
-
-	fileName=fileName+".txt";
-	const char *filepath=fileName.ConvertToChar();
-	ofstream outfile(filepath,ios::out|ios::trunc);//用c++的输出文件
-	if(!outfile)	 
-	{
-		_OpenNotify = new CATDlgNotify(this, "", CATDlgNfyError);
-		_OpenNotify->SetText("打开出错！");
-		_OpenNotify->SetVisibility(CATDlgShow);
-	}
-	outfile<<"姓名  "<<"性别  "<<"年龄  "<<"喜欢学科	  "<<endl;
-	CATUnicodeString	 name,gender,age,subject;
-	int ColumnNum=_MultiListInformation->GetLineCount();
-	for(int i=0;i<ColumnNum;i++)
-	{
-		//获取MultiListInformation中的信息
-		_MultiListInformation->GetColumnItem(0, name,i);
-		_MultiListInformation->GetColumnItem(1, gender,i);
-		_MultiListInformation->GetColumnItem(3, age,i);
-		_MultiListInformation->GetColumnItem(2, subject,i);
-		//此处需要调整字符串的输出方式，使得txt格式整齐
-		name.Resize(6,' ',0);
-		gender.Resize(4,' ',0);
-		age.Resize(4,' ',0);
-		outfile<<name<<" "<<gender<<" "<<age<<" "<<subject<<" "<<endl;
-	}
-	pDlgFile->RequestDelayedDestruction();
-	pDlgFile=NULL;
-}
-
-
-
-void BITCreateAssemSndDlg::OnMultiListInformationListSelectNotification(CATCommand* cmd, CATNotification* evt, CATCommandClientData data)
-{
-	int selectLine[1];
-	int selectNumb = _MultiListInformation->GetSelect(selectLine,1);
-	CATUnicodeString	 name,gender,age,subject;
-	_MultiListInformation->GetColumnItem(0, name,selectLine[0]);
-	_MultiListInformation->GetColumnItem(1, gender,selectLine[0]);
-	_MultiListInformation->GetColumnItem(3, age,selectLine[0]);
-	_MultiListInformation->GetColumnItem(2, subject,selectLine[0]);
-	_EditorName->SetText(name);//Editor值设置
-	if(gender=="男") {_RadioButtonMale->SetState(CATDlgCheck);_RadioButtonFemale->SetState(CATDlgUncheck);}//RadioButton状态设置
-	if(gender=="女") {_RadioButtonMale->SetState(CATDlgUncheck);_RadioButtonFemale->SetState(CATDlgCheck);}
-	int ageNumb;
-	age.ConvertToNum(&ageNumb,"%d");//字符串转化为整数
-	_ComboAge->SetSelect(ageNumb-20);
-	if(-1==subject.SearchSubString("知识工程"))//字符串搜索
-		_CheckButtonKnowledge->SetState(CATDlgUncheck);//CheckButton状态设置
-	else _CheckButtonKnowledge->SetState(CATDlgCheck);
-	if(-1==subject.SearchSubString("设计制造集成"))
-		_CheckButtonDesign->SetState(CATDlgUncheck);
-	else _CheckButtonDesign->SetState(CATDlgCheck);
-	if(-1==subject.SearchSubString("三维工艺设计"))
-		_CheckButton3D->SetState(CATDlgUncheck);
-	else _CheckButton3D->SetState(CATDlgCheck);
-}
