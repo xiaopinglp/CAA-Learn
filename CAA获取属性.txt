@@ -1,0 +1,103 @@
+CAAProductStructure.edu
+  CAAPstAllProperties.m
+  CAAPstPrdProperties.m
+  
+/**
+ * Defines the relative orientation of an element with regards to another one.
+ * @param CATOrientationNegative
+ * Their orientation are opposite.
+ * @param CATOrientationPositive
+ * They have the same orientation.
+ * @param CATOrientationUnknown
+ * The orientation is not known.
+ */
+#define CATOrientation      short
+/** @nodoc */
+#define CATOrientationNegative -1
+/** @nodoc */
+#define CATOrientationPositive  1
+/** @nodoc */
+#define CATOrientationUnknown   2
+
+/**
+ * Defines the side where is the matter when walking along an element in the
+ * direction of its default orientation.
+ * @param CATSideLeft
+ * The matter is on the left.
+ * @param CATSideFull
+ * The matter is on both sides: the object is immersed inside a cell of higher dimension.
+ * (non manifold configuration).
+ * @param CATSideRight
+ * The matter is on the right.
+ * @param CATSideUnknown
+ * The matter side is not known.
+ */ 
+#define CATSide      short
+/** @nodoc */
+#define CATSideLeft      1
+/** @nodoc */
+#define CATSideFull      0
+/** @nodoc */
+#define CATSideRight    -1
+/** @nodoc */
+#define CATSideUnknown   2
+
+E:\CATIA_developing\CAAxPDMTst\CAAxPDMInterfaces.edu\CAAxPDMReadItemInfo.m£»
+
+CATRep pRep;
+CATGraphicAttributeSet ga = pRep->GetGraphicAttributeSet( )  ;
+
+CATGraphicAttributeSet;
+Role: This class permits to have a graphic attribute which define the display properties of an element. 
+Always associated to a rep or a graphic primitive.
+
+
+C:\CATIA_V5_B22\CATMatInterfaces
+C:\CATIA_V5_B22\Material
+
+CATGraphicMaterial.h
+CATIAMaterialManager GetMaterialOnPart
+CATIARenderingMaterial.h
+
+/** 
+ * Interface for materials.
+ * <b>Role</b>:
+ * This is the base interface for materials.
+ * It is used to access the data needed for rendering.
+ */
+
+class CATIRdgMaterial
+
+CATMappingOperator  ComputeTextureCoordinates 
+Mapping operator used to calculate texture coordinates.
+  /** Computes the texture coordinates for all vertices.
+   * @param iVertex
+   * Array containing the coordinates of every vertices,as a succession
+   * of (x,y,z) sets.
+   * @param iNbVertex
+   * Number of vertices in <tt>iVertex</tt>.
+   * @param iNormals
+   * Array containing the coordinates of the normals at every vertices, as
+   * a succession of (Nx,Ny,Nz) sets.
+   * If the surface is plane, the only given set is valid for all vertices.
+   * @param iNormals
+   * Number of normal sets in <tt>iNormals</tt>.
+   * @param iTuv
+   * Array containing the parameters in of every vertices in the surface parametrization space,
+   * as a succession of (u,v) sets.
+   * This array must be required by the mapping operator through the method <tt>NeedUVMesh</tt>.
+   * @param iNbuv
+   * Number of parameter sets in <tt>iNbuv</tt>.
+   * @param oTexture
+   * Array containing the coordinates of texture coordinates for every vertices,
+   * as a succession of (s,t,0) sets. <br>
+   * (0,0,0) always indicates the lower-left corner of the texture image. <br>
+   * (1,1,0) always indicates the upper-right corner of the texture image.
+   */
+  virtual void ComputeTextureCoordinates(const float iVertex[],
+                                         const int   iNbVertex,
+                                         const float iNormals[],
+                                         const int   iNbNormals,
+                                         const float iTuv[],
+                                         const int   iNbuv,
+                                         float       oTexture[]) const;
